@@ -74,7 +74,7 @@ h1 {
 
 .todo-form {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr auto auto;
   gap: 12px;
 }
 
@@ -94,6 +94,31 @@ h1 {
   background: rgba(255, 255, 255, 0.8);
   color: var(--text);
   border: 1px solid rgba(64, 47, 28, 0.12);
+}
+
+.todo-form[data-color="blue"] input {
+  outline-color: rgba(79, 140, 255, 0.22);
+  border-color: rgba(79, 140, 255, 0.35);
+}
+
+.todo-form[data-color="green"] input {
+  outline-color: rgba(53, 178, 111, 0.22);
+  border-color: rgba(53, 178, 111, 0.35);
+}
+
+.todo-form[data-color="yellow"] input {
+  outline-color: rgba(224, 180, 0, 0.22);
+  border-color: rgba(224, 180, 0, 0.35);
+}
+
+.todo-form[data-color="red"] input {
+  outline-color: rgba(224, 91, 91, 0.22);
+  border-color: rgba(224, 91, 91, 0.35);
+}
+
+.todo-form[data-color="purple"] input {
+  outline-color: rgba(154, 107, 223, 0.22);
+  border-color: rgba(154, 107, 223, 0.35);
 }
 
 .todo-form select {
@@ -121,6 +146,51 @@ h1 {
   background: var(--accent);
   color: white;
   font-weight: 700;
+}
+
+.color-picker {
+  display: grid;
+  grid-template-columns: auto 18px;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(64, 47, 28, 0.12);
+  border-radius: 16px;
+}
+
+.color-picker select {
+  border: 0;
+  background: transparent;
+  padding: 16px 0;
+  outline: none;
+}
+
+.color-preview {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+.color-preview[data-color="blue"] {
+  background: #4f8cff;
+}
+
+.color-preview[data-color="green"] {
+  background: #35b26f;
+}
+
+.color-preview[data-color="yellow"] {
+  background: #e0b400;
+}
+
+.color-preview[data-color="red"] {
+  background: #e05b5b;
+}
+
+.color-preview[data-color="purple"] {
+  background: #9a6bdf;
 }
 
 .todo-form button:hover,
@@ -292,6 +362,10 @@ h1 {
 
   .todo-form {
     grid-template-columns: 1fr;
+  }
+
+  .color-picker {
+    grid-template-columns: auto 18px;
   }
 
   .stats {

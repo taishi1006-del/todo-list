@@ -20,14 +20,17 @@
         <form id="todo-form" class="todo-form" autocomplete="off">
           <label class="sr-only" for="todo-input">新しいタスク</label>
           <input id="todo-input" name="todo" type="text" placeholder="例: VS CodeでTODOを作る" />
-          <label class="sr-only" for="todo-color">タスクの色</label>
-          <select id="todo-color" name="color" aria-label="タスクの色">
-            <option value="blue">青</option>
-            <option value="green">緑</option>
-            <option value="yellow">黄</option>
-            <option value="red">赤</option>
-            <option value="purple">紫</option>
-          </select>
+          <div class="color-picker">
+            <label class="sr-only" for="todo-color">タスクの色</label>
+            <select id="todo-color" name="color" aria-label="タスクの色">
+              <option value="blue">青</option>
+              <option value="green">緑</option>
+              <option value="yellow">黄</option>
+              <option value="red">赤</option>
+              <option value="purple">紫</option>
+            </select>
+            <span id="color-preview" class="color-preview" aria-hidden="true"></span>
+          </div>
           <button type="submit">追加</button>
         </form>
 

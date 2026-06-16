@@ -3,6 +3,7 @@ const STORAGE_KEY = "vscode-todo-items";
 const form = document.getElementById("todo-form");
 const input = document.getElementById("todo-input");
 const colorSelect = document.getElementById("todo-color");
+const colorPreview = document.getElementById("color-preview");
 const list = document.getElementById("todo-list");
 const template = document.getElementById("todo-item-template");
 const count = document.getElementById("task-count");
@@ -12,6 +13,14 @@ const filterButtons = document.querySelectorAll(".filter");
 
 let todos = loadTodos();
 let filter = "all";
+
+const COLOR_CLASSES = ["blue", "green", "yellow", "red", "purple"];
+
+function setFormColor(color) {
+  const nextColor = COLOR_CLASSES.includes(color) ? color : "blue";
+  form.dataset.color = nextColor;
+  colorPreview.dataset.color = nextColor;
+}
 
 function loadTodos() {
   try {
@@ -103,7 +112,12 @@ form.addEventListener("submit", (event) => {
   addTodo(text);
   input.value = "";
   colorSelect.value = "blue";
+  setFormColor("blue");
   input.focus();
+});
+
+colorSelect.addEventListener("change", () => {
+  setFormColor(colorSelect.value);
 });
 
 filterButtons.forEach((button) => {
@@ -116,4 +130,5 @@ filterButtons.forEach((button) => {
 
 clearCompletedButton.addEventListener("click", clearCompleted);
 
+setFormColor(colorSelect.value);
 render();
