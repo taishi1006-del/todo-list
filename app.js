@@ -68,6 +68,12 @@ function addTodo(text) {
   render();
 }
 
+function updateTodo(id, updates) {
+  todos = todos.map((todo) => (todo.id === id ? { ...todo, ...updates } : todo));
+  saveTodos();
+  render();
+}
+
 function toggleTodo(id) {
   todos = todos.map((todo) =>
     todo.id === id ? { ...todo, completed: !todo.completed } : todo,
@@ -118,6 +124,7 @@ function render() {
     const color = item.querySelector(".todo-color");
     const text = item.querySelector(".todo-text");
     const date = item.querySelector(".todo-date");
+    const editButton = item.querySelector(".edit-btn");
     const deleteButton = item.querySelector(".delete-btn");
 
     item.dataset.id = todo.id;
@@ -138,6 +145,13 @@ function render() {
     }
 
     checkbox.addEventListener("change", () => toggleTodo(todo.id));
+    editButton.addEventListener("click", () => {
+      const nextText = window.prompt("タスク名を編集", todo.text);
+      if (nextText === null) return;
+      const trimmed = nextText.trim();
+      if (!trimmed) return;
+      updateTodo(todo.id, { text: trimmed });
+    });
     deleteButton.addEventListener("click", () => deleteTodo(todo.id));
 
     list.append(item);
