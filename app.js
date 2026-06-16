@@ -11,9 +11,11 @@ const count = document.getElementById("task-count");
 const emptyState = document.getElementById("empty-state");
 const clearCompletedButton = document.getElementById("clear-completed");
 const filterButtons = document.querySelectorAll(".filter");
+const sortButtons = document.querySelectorAll(".sort");
 
 let todos = loadTodos();
 let filter = "all";
+let sortMode = "date-asc";
 
 const COLOR_CLASSES = ["blue", "green", "yellow", "red", "purple"];
 
@@ -21,6 +23,24 @@ function setFormColor(color) {
   const nextColor = COLOR_CLASSES.includes(color) ? color : "blue";
   form.dataset.color = nextColor;
   colorPreview.dataset.color = nextColor;
+}
+
+function todayValue() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function formatDateLabel(value) {
+  if (!value) return "";
+  const date = new Date(`${value}T00:00:00`);
+  return new Intl.DateTimeFormat("ja-JP", {
+    month: "numeric",
+    day: "numeric",
+    weekday: "short",
+  }).format(date);
 }
 
 function loadTodos() {
@@ -40,7 +60,7 @@ function addTodo(text) {
   todos.unshift({
     id: crypto.randomUUID(),
     text,
-    date: dateInput.value,
+    date: dateInput.value || todayValue(),
     completed: false,
     color: colorSelect.value,
   });
@@ -69,13 +89,23 @@ function clearCompleted() {
 }
 
 function getVisibleTodos() {
-  if (filter === "active") {
-    return todos.filter((todo) => !todo.completed);
-  }
-  if (filter === "completed") {
-    return todos.filter((todo) => todo.completed);
-  }
-  return todos;
+  const filtered =
+    filter === "active"
+      ? todos.filter((todo) => !todo.completed)
+      : filter === "completed"
+        ? todos.filter((todo) => todo.completed)
+        : todos.slice();
+
+  filtered.sort((a, b) => {
+    const aTime = a.date ? new Date(`${a.date}T00:00:00`).getTime() : Number.POSITIVE_INFINITY;
+    const bTime = b.date ? new Date(`${b.date}T00:00:00`).getTime() : Number.POSITIVE_INFINITY;
+
+    if (aTime === bTime) return 0;
+    if (sortMode === "date-desc") return bTime - aTime;
+    return aTime - bTime;
+  });
+
+  return filtered;
 }
 
 function render() {
@@ -96,7 +126,16 @@ function render() {
     checkbox.checked = todo.completed;
     color.textContent = "";
     text.textContent = todo.text;
-    date.textContent = todo.date ? `日付: ${todo.date}` : "";
+    if (todo.date) {
+      date.textContent = `締切: ${formatDateLabel(todo.date)}`;
+      const target = new Date(`${todo.date}T00:00:00`).getTime();
+      const today = new Date(`${todayValue()}T00:00:00`).getTime();
+      item.classList.toggle("due-soon", !todo.completed && target === today);
+      item.classList.toggle("overdue", !todo.completed && target < today);
+    } else {
+      date.textContent = "";
+      item.classList.remove("due-soon", "overdue");
+    }
 
     checkbox.addEventListener("change", () => toggleTodo(todo.id));
     deleteButton.addEventListener("click", () => deleteTodo(todo.id));
@@ -115,7 +154,7 @@ form.addEventListener("submit", (event) => {
   if (!text) return;
   addTodo(text);
   input.value = "";
-  dateInput.value = "";
+  dateInput.value = todayValue();
   colorSelect.value = "blue";
   setFormColor("blue");
   input.focus();
@@ -133,7 +172,16 @@ filterButtons.forEach((button) => {
   });
 });
 
+sortButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    sortMode = button.dataset.sort;
+    sortButtons.forEach((btn) => btn.classList.toggle("active", btn === button));
+    render();
+  });
+});
+
 clearCompletedButton.addEventListener("click", clearCompleted);
 
+dateInput.value = todayValue();
 setFormColor(colorSelect.value);
 render();
