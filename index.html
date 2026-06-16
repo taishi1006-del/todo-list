@@ -20,6 +20,8 @@
         <form id="todo-form" class="todo-form" autocomplete="off">
           <label class="sr-only" for="todo-input">新しいタスク</label>
           <input id="todo-input" name="todo" type="text" placeholder="例: VS CodeでTODOを作る" />
+          <label class="sr-only" for="todo-date">日付</label>
+          <input id="todo-date" name="date" type="date" />
           <div class="color-picker">
             <label class="sr-only" for="todo-color">タスクの色</label>
             <select id="todo-color" name="color" aria-label="タスクの色">
@@ -58,7 +60,10 @@
           <span class="check-ui"></span>
         </label>
         <span class="todo-color" aria-hidden="true"></span>
-        <span class="todo-text"></span>
+        <div class="todo-main">
+          <span class="todo-text"></span>
+          <span class="todo-date"></span>
+        </div>
         <button class="delete-btn" type="button" aria-label="タスクを削除">削除</button>
       </li>
     </template>

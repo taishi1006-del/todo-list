@@ -2,6 +2,7 @@ const STORAGE_KEY = "vscode-todo-items";
 
 const form = document.getElementById("todo-form");
 const input = document.getElementById("todo-input");
+const dateInput = document.getElementById("todo-date");
 const colorSelect = document.getElementById("todo-color");
 const colorPreview = document.getElementById("color-preview");
 const list = document.getElementById("todo-list");
@@ -39,6 +40,7 @@ function addTodo(text) {
   todos.unshift({
     id: crypto.randomUUID(),
     text,
+    date: dateInput.value,
     completed: false,
     color: colorSelect.value,
   });
@@ -85,6 +87,7 @@ function render() {
     const checkbox = item.querySelector("input[type='checkbox']");
     const color = item.querySelector(".todo-color");
     const text = item.querySelector(".todo-text");
+    const date = item.querySelector(".todo-date");
     const deleteButton = item.querySelector(".delete-btn");
 
     item.dataset.id = todo.id;
@@ -93,6 +96,7 @@ function render() {
     checkbox.checked = todo.completed;
     color.textContent = "";
     text.textContent = todo.text;
+    date.textContent = todo.date ? `日付: ${todo.date}` : "";
 
     checkbox.addEventListener("change", () => toggleTodo(todo.id));
     deleteButton.addEventListener("click", () => deleteTodo(todo.id));
@@ -111,6 +115,7 @@ form.addEventListener("submit", (event) => {
   if (!text) return;
   addTodo(text);
   input.value = "";
+  dateInput.value = "";
   colorSelect.value = "blue";
   setFormColor("blue");
   input.focus();
