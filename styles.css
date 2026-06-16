@@ -200,7 +200,8 @@ h1 {
 .todo-form button:hover,
 #clear-completed:hover,
 .delete-btn:hover,
-.edit-btn:hover,
+.save-btn:hover,
+.todo-item-color:hover,
 .filter:hover,
 .sort:hover {
   transform: translateY(-1px);
@@ -280,6 +281,40 @@ h1 {
   gap: 4px;
 }
 
+.todo-text {
+  width: 100%;
+  border: 1px solid rgba(64, 47, 28, 0.12);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--text);
+  font: inherit;
+}
+
+.todo-item.completed .todo-text {
+  color: var(--done);
+  text-decoration: line-through;
+}
+
+.todo-item-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.todo-item-color {
+  border: 1px solid rgba(64, 47, 28, 0.12);
+  border-radius: 12px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--text);
+  font: inherit;
+}
+
+.todo-item.completed .todo-item-color {
+  opacity: 0.75;
+}
+
 .todo-check {
   display: grid;
   place-items: center;
@@ -315,10 +350,6 @@ h1 {
   border-bottom: 2px solid #fff;
   transform: rotate(-45deg);
   margin-top: -1px;
-}
-
-.todo-text {
-  line-height: 1.5;
 }
 
 .todo-date {
@@ -363,11 +394,6 @@ h1 {
   background: #9a6bdf;
 }
 
-.todo-item.completed .todo-text {
-  color: var(--done);
-  text-decoration: line-through;
-}
-
 .todo-item.completed .todo-date {
   color: var(--done);
   font-weight: 400;
@@ -379,7 +405,7 @@ h1 {
   color: var(--accent-strong);
 }
 
-.edit-btn {
+.save-btn {
   padding: 10px 14px;
   background: rgba(53, 107, 199, 0.12);
   color: #3569c7;
@@ -420,6 +446,19 @@ h1 {
 
   .color-picker {
     grid-template-columns: auto 18px;
+  }
+
+  .todo-item {
+    grid-template-columns: auto 14px 1fr;
+  }
+
+  .todo-item-actions {
+    flex-wrap: wrap;
+  }
+
+  .delete-btn {
+    grid-column: 3;
+    justify-self: start;
   }
 
   .stats {

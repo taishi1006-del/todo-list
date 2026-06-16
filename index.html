@@ -66,10 +66,19 @@
         </label>
         <span class="todo-color" aria-hidden="true"></span>
         <div class="todo-main">
-          <span class="todo-text"></span>
+          <input class="todo-text" type="text" />
           <span class="todo-date"></span>
+          <div class="todo-item-actions">
+            <select class="todo-item-color" aria-label="タスクの色を変更">
+              <option value="blue">青</option>
+              <option value="green">緑</option>
+              <option value="yellow">黄</option>
+              <option value="red">赤</option>
+              <option value="purple">紫</option>
+            </select>
+            <button class="save-btn" type="button">保存</button>
+          </div>
         </div>
-        <button class="edit-btn" type="button">編集</button>
         <button class="delete-btn" type="button" aria-label="タスクを削除">削除</button>
       </li>
     </template>

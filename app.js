@@ -124,7 +124,8 @@ function render() {
     const color = item.querySelector(".todo-color");
     const text = item.querySelector(".todo-text");
     const date = item.querySelector(".todo-date");
-    const editButton = item.querySelector(".edit-btn");
+    const colorSelect = item.querySelector(".todo-item-color");
+    const saveButton = item.querySelector(".save-btn");
     const deleteButton = item.querySelector(".delete-btn");
 
     item.dataset.id = todo.id;
@@ -132,7 +133,8 @@ function render() {
     item.classList.toggle("completed", todo.completed);
     checkbox.checked = todo.completed;
     color.textContent = "";
-    text.textContent = todo.text;
+    text.value = todo.text;
+    colorSelect.value = todo.color || "blue";
     if (todo.date) {
       date.textContent = `締切: ${formatDateLabel(todo.date)}`;
       const target = new Date(`${todo.date}T00:00:00`).getTime();
@@ -145,12 +147,10 @@ function render() {
     }
 
     checkbox.addEventListener("change", () => toggleTodo(todo.id));
-    editButton.addEventListener("click", () => {
-      const nextText = window.prompt("タスク名を編集", todo.text);
-      if (nextText === null) return;
-      const trimmed = nextText.trim();
-      if (!trimmed) return;
-      updateTodo(todo.id, { text: trimmed });
+    saveButton.addEventListener("click", () => {
+      const nextText = text.value.trim();
+      if (!nextText) return;
+      updateTodo(todo.id, { text: nextText, color: colorSelect.value });
     });
     deleteButton.addEventListener("click", () => deleteTodo(todo.id));
 
