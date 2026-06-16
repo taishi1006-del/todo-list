@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TODO List</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <p class="eyebrow">Simple TODO</p>
+        <h1>やることを、軽やかに整理する</h1>
+        <p class="subtitle">
+          追加したタスクは自動で保存されます。完了・削除・フィルタ表示もできます。
+        </p>
+      </section>
+
+      <section class="card">
+        <form id="todo-form" class="todo-form" autocomplete="off">
+          <label class="sr-only" for="todo-input">新しいタスク</label>
+          <input id="todo-input" name="todo" type="text" placeholder="例: VS CodeでTODOを作る" />
+          <label class="sr-only" for="todo-color">タスクの色</label>
+          <select id="todo-color" name="color" aria-label="タスクの色">
+            <option value="blue">青</option>
+            <option value="green">緑</option>
+            <option value="yellow">黄</option>
+            <option value="red">赤</option>
+            <option value="purple">紫</option>
+          </select>
+          <button type="submit">追加</button>
+        </form>
+
+        <div class="toolbar" role="tablist" aria-label="タスクの絞り込み">
+          <button class="filter active" type="button" data-filter="all">すべて</button>
+          <button class="filter" type="button" data-filter="active">未完了</button>
+          <button class="filter" type="button" data-filter="completed">完了済み</button>
+        </div>
+
+        <div class="stats" aria-live="polite">
+          <span id="task-count">0 件</span>
+          <button id="clear-completed" type="button">完了済みを削除</button>
+        </div>
+
+        <ul id="todo-list" class="todo-list" aria-label="TODO リスト"></ul>
+
+        <p id="empty-state" class="empty-state">まだタスクがありません。最初の1件を追加しましょう。</p>
+      </section>
+    </main>
+
+    <template id="todo-item-template">
+      <li class="todo-item">
+        <label class="todo-check">
+          <input type="checkbox" />
+          <span class="check-ui"></span>
+        </label>
+        <span class="todo-color" aria-hidden="true"></span>
+        <span class="todo-text"></span>
+        <button class="delete-btn" type="button" aria-label="タスクを削除">削除</button>
+      </li>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
